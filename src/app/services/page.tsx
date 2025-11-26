@@ -20,7 +20,11 @@ function ServiceSearchContent() {
 
   // یک افکت که اگر URL عوض شد، سرچ باکس هم آپدیت شود
   useEffect(() => {
-    if(initialQuery) setSearchTerm(initialQuery);
+    // اصلاح: فقط اگر مقدار جدید با مقدار فعلی فرق داشت آپدیت کن (جلوگیری از رندر تکراری)
+    if (initialQuery && initialQuery !== searchTerm) {
+      setSearchTerm(initialQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialQuery]);
 
   // منطق فیلتر ترکیبی (هم متن، هم دسته‌بندی)
