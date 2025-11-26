@@ -91,7 +91,7 @@ I am open to full-stack opportunities and collaboration.
 | :--- | :--- |
 | 🌐 **Portfolio** | [majidproject.github.io/web-portfolio/](https://majidproject.github.io/web-portfolio/) |
 | 🔗 **LinkedIn** | [linkedin.com/in/majid-mansouri-a8163866](https://www.linkedin.com/in/majid-mansouri-a8163866) |
-| 📧 **Email** | [mm.project.88@gmail.com](mailto:mm.project.88@gmail.com) |
+| 📧 **Email** | [mm.project.8902@gmail.com](mailto:mm.project.8902@gmail.com) |
 
 ```
 ```
