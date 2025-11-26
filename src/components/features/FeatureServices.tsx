@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useService } from "@/context/ServiceContext"; // <--- 2. اتصال به دیتابیس خدمات
-import { FiStar, FiUser } from "react-icons/fi";
+import { FiStar } from "react-icons/fi";
 
 export default function FeaturedServices() {
   // 3. گرفتن لیست خدمات از کانتکست (شامل سرویس جدید تو)
