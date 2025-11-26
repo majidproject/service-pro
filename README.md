@@ -1,5 +1,6 @@
 # 🛠️ ServicePro — On-Demand Service Marketplace
 
+[![CI Build Check](https://github.com/majidproject/service-pro/actions/workflows/ci.yml/badge.svg)](https://github.com/majidproject/service-pro/actions/workflows/ci.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d8affc96-4280-4734-9a14-6df021849664/deploy-status)](https://app.netlify.com/sites/service-pro-majid/deploys)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)

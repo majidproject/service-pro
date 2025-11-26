@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useBooking } from "@/context/BookingContext"; // اتصال به مغز سایت
-import { FiCalendar, FiClock, FiMapPin } from "react-icons/fi";
+import { FiCalendar, FiClock } from "react-icons/fi";
 
 export default function MyBookingsPage() {
   const { bookings } = useBooking(); // دریافت لیست سفارش‌ها
@@ -19,7 +19,7 @@ export default function MyBookingsPage() {
             <FiCalendar size={32} />
           </div>
           <h3 className="text-lg font-bold text-gray-900">No active bookings</h3>
-          <p className="text-gray-500 mb-6">You haven't booked any services yet.</p>
+          <p className="text-gray-500 mb-6">You haven&apos;t booked any services yet.</p>
           <Link 
             href="/services" 
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-colors"

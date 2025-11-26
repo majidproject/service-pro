@@ -64,7 +64,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 Standard service includes assessment, execution, and clean-up.
               </p>
               
-              <h3 className="font-bold text-gray-900 mb-4">What's Included:</h3>
+              <h3 className="font-bold text-gray-900 mb-4">What&apos;s Included:</h3>
               <ul className="grid gap-3">
                 {['Background-checked Pro', 'Upfront Pricing', 'Satisfaction Guarantee', '24/7 Support'].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-gray-600">
@@ -107,7 +107,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 </Link>
                 
                 <p className="text-xs text-center text-gray-400 mb-6">
-                    You won't be charged until the job is done.
+                    You won&apos;t be charged until the job is done.
                 </p>
 
                 <div className="border-t border-gray-100 pt-4 space-y-3 text-sm text-gray-600">

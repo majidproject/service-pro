@@ -31,7 +31,7 @@ export default function MyServicesPage() {
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
             <FiBriefcase size={32} />
           </div>
-          <h3 className="text-lg font-bold text-gray-900">You haven't posted any services</h3>
+          <h3 className="text-lg font-bold text-gray-900">You haven&apos;t posted any services</h3>
           <p className="text-gray-500 mb-6">Start earning by offering your skills to neighbors.</p>
           <Link 
             href="/join-pro" 
