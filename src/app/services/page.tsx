@@ -20,7 +20,7 @@ function ServiceSearchContent() {
 
   // یک افکت که اگر URL عوض شد، سرچ باکس هم آپدیت شود
   useEffect(() => {
-    // اصلاح: فقط اگر مقدار جدید با مقدار فعلی فرق داشت آپدیت کن (جلوگیری از رندر تکراری)
+    // اصلاح: فقط اگر مقدار URL با مقدار فعلی باکس جستجو متفاوت بود، آپدیت کن
     if (initialQuery && initialQuery !== searchTerm) {
       setSearchTerm(initialQuery);
     }
