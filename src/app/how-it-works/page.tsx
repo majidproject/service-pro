@@ -1,3 +1,9 @@
+/**
+ * How It Works Page
+ * -----------------
+ * A static informational page explaining the platform's workflow to users.
+ * Currently serves as a placeholder for the "How it Works" route.
+ */
 export default function HowItWorksPage() {
   return (
     <div className="container mx-auto px-4 py-20 text-center">
@@ -6,7 +12,10 @@ export default function HowItWorksPage() {
         We connect you with top-rated professionals in your area. 
         It&apos;s as simple as Search, Book, and Relax.
       </p>
-      {/* اینجا می‌تونی بعداً عکس یا مراحل اضافه کنی */}
+      
+      {/* TODO: Implement a graphical "Steps" component here (e.g., 1. Search, 2. Book, 3. Relax).
+        Consider using icons or an SVG illustration to visualize the user journey effectively.
+      */}
     </div>
   );
 }

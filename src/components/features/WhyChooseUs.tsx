@@ -1,6 +1,15 @@
 import { FiShield, FiDollarSign, FiHeadphones } from "react-icons/fi";
 
+/**
+ * WhyChooseUs Component
+ * Renders a static "Trust & Value" section on the landing page.
+ * Designed to build user confidence by highlighting key platform benefits.
+ */
 export default function WhyChooseUs() {
+  
+  // Static data for value propositions.
+  // TODO: In a production app, fetch this data from a CMS (e.g., Sanity/Strapi) 
+  // to allow the marketing team to update content without code changes.
   const features = [
     {
       icon: <FiShield className="w-10 h-10 text-blue-600" />,
@@ -23,6 +32,7 @@ export default function WhyChooseUs() {
     <section className="py-20 bg-gray-50 border-t border-gray-100">
       <div className="container mx-auto px-4">
         
+        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Why use ServicePro?</h2>
           <p className="text-gray-600 text-lg">
@@ -30,12 +40,18 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
+        {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-10">
           {features.map((feature, index) => (
-            <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center">
+            <div 
+              key={index} 
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+            >
+              {/* Decorative Icon Wrapper */}
               <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
                 {feature.icon}
               </div>
+              
               <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
               <p className="text-gray-600 leading-relaxed">
                 {feature.description}

@@ -1,18 +1,24 @@
-"use client"; // <--- 1. تبدیل به کلاینت کامپوننت (چون به کانتکست وصل می‌شود)
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useService } from "@/context/ServiceContext"; // <--- 2. اتصال به دیتابیس خدمات
+import { useService } from "@/context/ServiceContext";
 import { FiStar } from "react-icons/fi";
 
+/**
+ * FeaturedServices Component
+ * Fetches and displays a list of trending/featured services from the global state.
+ * Designed to showcase top-rated services with direct booking links.
+ */
 export default function FeaturedServices() {
-  // 3. گرفتن لیست خدمات از کانتکست (شامل سرویس جدید تو)
+  // Access the dynamic service list from the ServiceContext
   const { services } = useService();
 
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         
+        {/* Section Header */}
         <div className="flex items-center justify-between mb-10">
             <div>
                 <h2 className="text-3xl font-bold text-gray-900">Trending Services</h2>
@@ -23,12 +29,17 @@ export default function FeaturedServices() {
             </Link>
         </div>
 
+        {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* 4. حلقه روی لیست خدمات زنده (services) */}
           {services.map((service) => (
             <div key={service.id} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
               
-              <Link href={`/services/${service.id}`} className="relative h-48 overflow-hidden block">
+              {/* Service Image Link with Accessibility Label */}
+              <Link 
+                href={`/services/${service.id}`} 
+                className="relative h-48 overflow-hidden block"
+                aria-label={`View details for ${service.title}`}
+              >
                 <Image 
                     src={service.image} 
                     alt={service.title}
@@ -41,6 +52,7 @@ export default function FeaturedServices() {
                 </div>
               </Link>
 
+              {/* Service Details */}
               <div className="p-5 flex flex-col flex-grow">
                 <Link href={`/services/${service.id}`}>
                     <h3 className="font-bold text-lg text-gray-900 mb-2 hover:text-blue-600 transition">
@@ -48,6 +60,7 @@ export default function FeaturedServices() {
                     </h3>
                 </Link>
                 
+                {/* Provider Info */}
                 <div className="flex items-center gap-2 mb-4">
                     <Image 
                         src={service.proAvatar} 
@@ -59,6 +72,7 @@ export default function FeaturedServices() {
                     <span className="text-sm text-gray-500">by {service.proName}</span>
                 </div>
 
+                {/* Price and Action */}
                 <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                     <div>
                         <span className="text-xs text-gray-400 uppercase font-bold">Starting at</span>
@@ -77,6 +91,7 @@ export default function FeaturedServices() {
           ))}
         </div>
 
+        {/* Mobile View All Button */}
         <div className="mt-8 text-center md:hidden">
             <Link href="/services" className="text-blue-600 font-semibold hover:underline">
                 View all services &rarr;

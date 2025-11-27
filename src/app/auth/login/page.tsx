@@ -5,16 +5,29 @@ import { useAuth } from "@/context/AuthContext";
 import { FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 
+/**
+ * Login Page
+ * ----------
+ * Serves as the authentication entry point for existing users.
+ * Features:
+ * - Form validation and state management.
+ * - Integration with AuthContext for session handling.
+ * - Loading states for better UX during API calls.
+ */
 export default function LoginPage() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  /**
+   * Handles form submission.
+   * Prevents default reload, simulates an API request, and triggers the global login action.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // شبیه‌سازی تاخیر سرور
+    // Simulate network latency for realistic UI behavior
     setTimeout(() => {
       login(email);
     }, 1500);
@@ -31,10 +44,14 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           
+          {/* Email Input Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address
+            </label>
             <div className="relative">
               <input 
+                id="email"
                 type="email" 
                 required
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
@@ -46,10 +63,14 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {/* Password Input Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
             <div className="relative">
               <input 
+                id="password"
                 type="password" 
                 required
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
@@ -59,10 +80,11 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {/* Submit Button with Loading State */}
           <button 
             type="submit" 
             disabled={isLoading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
+            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200 ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
           >
             {isLoading ? "Signing in..." : (
               <>
@@ -73,9 +95,10 @@ export default function LoginPage() {
 
         </form>
 
+        {/* Registration Link */}
         <div className="mt-8 text-center text-sm text-gray-500">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="text-blue-600 font-bold hover:underline">
+          <Link href="/join-pro" className="text-blue-600 font-bold hover:underline">
             Create account
           </Link>
         </div>

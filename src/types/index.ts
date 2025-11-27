@@ -1,6 +1,18 @@
-// src/types/index.ts
+/**
+ * Global Type Definitions
+ * ------------------------
+ * This file contains shared TypeScript interfaces used across the application.
+ * Defining types here ensures consistency and type safety for Contexts, Components, and Hooks.
+ */
 
-// شکل کلی یک سفارش
+// =========================================
+// Booking Types
+// =========================================
+
+/**
+ * Represents a single booking transaction.
+ * Contains details about the service, pricing, and status.
+ */
 export interface Booking {
   id: string;
   serviceTitle: string;
@@ -11,12 +23,23 @@ export interface Booking {
   image: string;
 }
 
-// شکل کلی کوله‌پشتی (Context)
+/**
+ * Booking Context State
+ * Defines the shape of the BookingContext value.
+ */
 export interface BookingContextType {
-  bookings: Booking[]; // لیست سفارش‌ها
-  addBooking: (booking: Booking) => void; // تابعی برای ثبت سفارش
+  bookings: Booking[]; // List of all user bookings
+  addBooking: (booking: Booking) => void; // Action to create a new booking
 }
 
+// =========================================
+// Authentication Types
+// =========================================
+
+/**
+ * User Profile
+ * Represents the authenticated user's metadata.
+ */
 export interface User {
   id: string;
   name: string;
@@ -24,12 +47,24 @@ export interface User {
   role: "user" | "admin";
 }
 
+/**
+ * Authentication Context State
+ * Defines the shape of the AuthContext value.
+ */
 export interface AuthContextType {
-  user: User | null;
-  login: (email: string) => void;
-  logout: () => void;
+  user: User | null; // Current logged-in user (null if guest)
+  login: (email: string) => void; // Action to simulate login
+  logout: () => void; // Action to clear session
 }
 
+// =========================================
+// Service Types
+// =========================================
+
+/**
+ * Service Entity
+ * Represents a service offered by a professional (Provider).
+ */
 export interface Service {
   id: number;
   title: string;
@@ -39,10 +74,14 @@ export interface Service {
   price: number;
   proName: string;
   proAvatar: string;
-  category: string; // مثلاً Cleaning, Plumbing
+  category: string;
 }
 
+/**
+ * Service Context State
+ * Defines the shape of the ServiceContext value.
+ */
 export interface ServiceContextType {
-  services: Service[];
-  addService: (service: Service) => void;
+  services: Service[]; // List of all available services
+  addService: (service: Service) => void; // Action to publish a new service
 }

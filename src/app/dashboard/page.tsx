@@ -1,36 +1,51 @@
-"use client"; // <--- 1. حتما باید باشد چون داریم از کانتکست می‌خوانیم
+"use client";
 
 import { useAuth } from "@/context/AuthContext";
 import { useBooking } from "@/context/BookingContext";
 import { FiCheckCircle, FiClock, FiCreditCard } from "react-icons/fi";
 
+/**
+ * Dashboard Overview Page
+ * -----------------------
+ * Displays a summary of the user's activity and account status.
+ * Features:
+ * - Real-time statistics (Active Bookings, Completed Jobs, Total Spend).
+ * - Recent activity feed showing the latest transactions.
+ * - Personalized welcome message.
+ */
 export default function DashboardPage() {
-  const { user } = useAuth(); // گرفتن اسم کاربر
-  const { bookings } = useBooking(); // گرفتن لیست سفارش‌ها
+  // Access global state for user details and booking history
+  const { user } = useAuth();
+  const { bookings } = useBooking();
 
-  // 2. محاسبات ریاضی (Analytics Logic)
+  // ---------------------------------------------------------
+  // Analytics Logic (Client-Side Calculation)
+  // ---------------------------------------------------------
+  // NOTE: In a production environment with large datasets, these calculations 
+  // should be offloaded to the backend (e.g., GET /api/user/stats) to improve performance.
+
+  // Count bookings that are currently in progress or waiting for confirmation
+  const activeBookings = bookings.filter(
+    (b) => b.status === "Pending" || b.status === "Confirmed"
+  ).length;
   
-  // تعداد سفارش‌های فعال (در انتظار یا تایید شده)
-  const activeBookings = bookings.filter(b => b.status === "Pending" || b.status === "Confirmed").length;
+  // Count successfully completed services
+  const completedJobs = bookings.filter((b) => b.status === "Completed").length;
   
-  // تعداد کارهای تمام شده
-  const completedJobs = bookings.filter(b => b.status === "Completed").length;
-  
-  // جمع کل پول خرج شده (جمع قیمت همه سفارش‌ها)
-  // reduce یک تابع جاوااسکریپت است که روی لیست می‌چرخد و اعداد را جمع می‌کند
+  // Calculate total lifetime spending by summing up price of all bookings
   const totalSpent = bookings.reduce((sum, booking) => sum + booking.price, 0);
 
   return (
     <div>
-      {/* نمایش دینامیک اسم کاربر */}
+      {/* Personalized Header */}
       <h1 className="text-2xl font-bold text-gray-900 mb-6">
         Welcome back, {user?.name || "User"}! 👋
       </h1>
       
-      {/* Stats Cards */}
+      {/* Key Performance Indicators (KPI) Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         
-        {/* کارت ۱: سفارش‌های فعال */}
+        {/* Card 1: Active Bookings */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
             <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
                 <FiClock size={24} />
@@ -41,7 +56,7 @@ export default function DashboardPage() {
             </div>
         </div>
 
-        {/* کارت ۲: کارهای تمام شده */}
+        {/* Card 2: Completed Jobs */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
             <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center">
                 <FiCheckCircle size={24} />
@@ -52,7 +67,7 @@ export default function DashboardPage() {
             </div>
         </div>
 
-        {/* کارت ۳: کل هزینه */}
+        {/* Card 3: Financials */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
             <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">
                 <FiCreditCard size={24} />
@@ -65,7 +80,7 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* Recent Activity (لیست کوتاه شده) */}
+      {/* Recent Activity Feed */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="p-6 border-b border-gray-100">
             <h2 className="font-bold text-gray-900">Recent Activity</h2>
@@ -77,7 +92,7 @@ export default function DashboardPage() {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {/* نمایش ۳ سفارش آخر */}
+                    {/* Display only the 3 most recent bookings */}
                     {bookings.slice(0, 3).map((booking) => (
                         <div key={booking.id} className="flex items-center justify-between border-b border-gray-50 pb-4 last:border-0 last:pb-0">
                             <div>

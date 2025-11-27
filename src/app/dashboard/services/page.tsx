@@ -6,27 +6,41 @@ import { useService } from "@/context/ServiceContext";
 import { useAuth } from "@/context/AuthContext";
 import { FiPlus, FiBriefcase, FiStar, FiEdit2 } from "react-icons/fi";
 
+/**
+ * My Services Page (Provider Dashboard)
+ * -------------------------------------
+ * Displays a list of services created/published by the currently logged-in user.
+ * Features:
+ * - Filtered view of the global service list (Client-side filtering for MVP).
+ * - "Create New Service" action.
+ * - Edit entry point for existing services.
+ * - Empty state handling for new providers.
+ */
 export default function MyServicesPage() {
-  const { services } = useService(); // کل خدمات سایت
-  const { user } = useAuth(); // کاربر لاگین شده
+  const { services } = useService(); // Access global service database
+  const { user } = useAuth(); // Access current user session
 
-  // فیلتر کردن: فقط خدماتی که اسم پرووایدرش با اسم من یکی باشد
+  // Filter services to show only those belonging to the current provider.
+  // TODO: In production, fetch this data directly from the backend (e.g., GET /api/provider/services)
+  // to avoid loading unnecessary data on the client side.
   const myServices = services.filter(service => service.proName === user?.name);
 
   return (
     <div>
+      {/* Page Header & Actions */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">My Services</h1>
         <Link 
             href="/join-pro" 
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-lg transition"
+            aria-label="Create a new service"
         >
             <FiPlus /> New Service
         </Link>
       </div>
 
       {myServices.length === 0 ? (
-        /* --- حالت خالی --- */
+        /* --- Empty State: Onboarding for New Providers --- */
         <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
             <FiBriefcase size={32} />
@@ -41,11 +55,12 @@ export default function MyServicesPage() {
           </Link>
         </div>
       ) : (
-        /* --- لیست خدمات من --- */
+        /* --- Service Grid: Active Listings --- */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {myServices.map((service) => (
             <div key={service.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all">
               
+              {/* Service Thumbnail */}
               <div className="relative h-40">
                 <Image 
                   src={service.image} 
@@ -58,13 +73,20 @@ export default function MyServicesPage() {
                 </div>
               </div>
 
+              {/* Service Details & Actions */}
               <div className="p-5">
                 <div className="text-xs text-blue-600 font-bold uppercase mb-1">{service.category}</div>
                 <h3 className="font-bold text-gray-900 mb-4">{service.title}</h3>
                 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-50">
                     <span className="font-bold text-lg">${service.price}</span>
-                    <button className="flex items-center gap-1 text-gray-500 hover:text-blue-600 text-sm font-medium transition">
+                    
+                    {/* Edit Action */}
+                    {/* TODO: Implement Edit functionality (e.g., link to /dashboard/services/edit/[id]) */}
+                    <button 
+                      className="flex items-center gap-1 text-gray-500 hover:text-blue-600 text-sm font-medium transition"
+                      aria-label={`Edit ${service.title}`}
+                    >
                         <FiEdit2 size={16} /> Edit
                     </button>
                 </div>

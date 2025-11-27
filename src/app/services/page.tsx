@@ -7,28 +7,43 @@ import { useSearchParams } from "next/navigation";
 import { useService } from "@/context/ServiceContext";
 import { FiSearch, FiFilter, FiStar } from "react-icons/fi";
 
+/**
+ * ServiceSearchContent Component
+ * ------------------------------
+ * Handles the logic for searching and filtering services.
+ * Features:
+ * - URL-based state synchronization (shareable search links).
+ * - Client-side filtering by keyword and category.
+ * - Responsive grid layout for results.
+ */
 function ServiceSearchContent() {
-  const { services } = useService();
+  const { services } = useService(); // Access global service data
   const searchParams = useSearchParams();
 
+  // Retrieve initial filters from URL parameters (e.g., ?q=cleaning&category=Home Cleaning)
   const initialQuery = searchParams.get("q") || "";
   const initialCategory = searchParams.get("category") || "";
 
   const [searchTerm, setSearchTerm] = useState(initialQuery);
 
-  // --- اصلاح اصلی اینجاست ---
+  /**
+   * Sync local state with URL changes.
+   * This ensures that if the user clicks "Back" or uses a deep link, the UI updates accordingly.
+   * Conditional check prevents unnecessary re-renders.
+   */
   useEffect(() => {
-    // فقط اگر مقدار URL با مقدار فعلی باکس متفاوت بود، آپدیت کن (جلوگیری از لوپ)
     if (initialQuery && initialQuery !== searchTerm) {
       setSearchTerm(initialQuery);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialQuery]);
-  // --------------------------
 
+  // Filter Logic: Matches title/category against search term AND category filter
   const filteredServices = services.filter((service) => {
-    const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          service.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = 
+      service.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      service.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.proName.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesCategory = initialCategory 
       ? service.category === initialCategory 
@@ -39,6 +54,7 @@ function ServiceSearchContent() {
 
   return (
     <>
+        {/* Search Header & Filter Controls */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
@@ -49,10 +65,12 @@ function ServiceSearchContent() {
             </p>
           </div>
           
+          {/* Search Input Field */}
           <div className="relative w-full md:w-96">
             <input
               type="text"
               placeholder="Search services..."
+              aria-label="Search services"
               className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -61,14 +79,17 @@ function ServiceSearchContent() {
           </div>
         </div>
 
+        {/* Results Grid */}
         {filteredServices.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredServices.map((service) => (
               <Link 
                 key={service.id} 
                 href={`/services/${service.id}`}
+                aria-label={`View details for ${service.title}`}
                 className="bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all group block"
               >
+                {/* Service Thumbnail */}
                 <div className="relative h-48">
                   <Image
                     src={service.image}
@@ -81,6 +102,8 @@ function ServiceSearchContent() {
                     {service.rating}
                   </div>
                 </div>
+                
+                {/* Service Info */}
                 <div className="p-4">
                   <h3 className="font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition">
                     {service.title}
@@ -95,6 +118,7 @@ function ServiceSearchContent() {
             ))}
           </div>
         ) : (
+          /* Empty State Display */
           <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
                 <FiFilter size={32} />
@@ -112,11 +136,18 @@ function ServiceSearchContent() {
   );
 }
 
+/**
+ * AllServicesPage (Main Page Component)
+ * -------------------------------------
+ * Wraps the search logic in a Suspense boundary.
+ * NOTE: Suspense is required in Next.js App Router when using useSearchParams
+ * to prevent de-opting to client-side rendering for the entire route.
+ */
 export default function AllServicesPage() {
   return (
     <div className="bg-gray-50 min-h-screen py-10">
       <div className="container mx-auto px-4">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="text-center py-20">Loading services...</div>}>
           <ServiceSearchContent />
         </Suspense>
       </div>

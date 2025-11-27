@@ -1,40 +1,31 @@
 name: CI Build Check
 
-# این اکشن کی اجرا شود؟
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
-# چه کاری انجام دهد؟
 jobs:
   build:
     name: Build and Lint
     runs-on: ubuntu-latest
 
     steps:
-      # 1. دریافت کدها از مخزن
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. نصب Node.js (نسخه 18 یا 20)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # 3. نصب پکیج‌ها (سریع و تمیز)
       - name: Install dependencies
         run: npm ci
 
-      # 4. بررسی استاندارد کد (Linting)
-      # (اگر کد کثیف باشد یا ارور سینتکس داشته باشد اینجا قرمز می‌شود)
       - name: Run Linter
         run: npm run lint
 
-      # 5. تست بیلد شدن (Build)
-      # (مهم‌ترین مرحله: آیا پروژه بیلد می‌شود؟)
       - name: Build Project
         run: npm run build

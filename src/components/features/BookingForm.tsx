@@ -2,40 +2,50 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useBooking } from "@/context/BookingContext"; // <--- 1. ایمپورت هوک
+import { useBooking } from "@/context/BookingContext";
 import { FiCalendar, FiMapPin, FiCreditCard, FiCheckCircle, FiLoader } from "react-icons/fi";
 
-// ورودی‌های جدید برای ذخیره دقیق اطلاعات
+/**
+ * Props definition for the BookingForm component.
+ * It receives necessary service details to finalize the booking.
+ */
 interface BookingFormProps {
   total: number;
-  serviceTitle: string; // اسم سرویس رو هم می‌گیریم
-  proName: string;      // اسم متخصص
-  image: string;        // عکس سرویس
+  serviceTitle: string;
+  proName: string;
+  image: string;
 }
 
 export default function BookingForm({ total, serviceTitle, proName, image }: BookingFormProps) {
   const router = useRouter();
-  const { addBooking } = useBooking(); // <--- 2. دریافت تابع ذخیره از کانتکست
+  
+  // Access global booking state to persist reservation data
+  const { addBooking } = useBooking();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  /**
+   * Handles the booking submission process.
+   * TODO: Integrate with real backend API for transaction processing.
+   */
   const handleBooking = () => {
     setIsSubmitting(true);
 
-    // 3. ساختن آبجکت سفارش
+    // Create a new booking object
+    // NOTE: Generating a temporary ID based on timestamp for MVP purposes.
     const newBooking = {
-      id: Date.now().toString(), // یک آی‌دی تصادفی بر اساس زمان
+      id: Date.now().toString(),
       serviceTitle,
       price: total,
-      date: new Date().toLocaleDateString(), // تاریخ امروز
+      date: new Date().toLocaleDateString(), // Captures current date as booking date
       status: "Pending" as const,
       proName,
       image
     };
 
-    // 4. ذخیره در حافظه مرکزی
+    // Save to client-side context storage
     addBooking(newBooking);
 
-    // 5. انتقال به صفحه موفقیت
+    // Simulate network latency before redirecting to success page
     setTimeout(() => {
       router.push("/book/success");
     }, 2000);
@@ -43,20 +53,22 @@ export default function BookingForm({ total, serviceTitle, proName, image }: Boo
 
   return (
     <div className="md:col-span-2 space-y-6">
-      {/* ... (بخش‌های تقویم و آدرس و پرداخت بدون تغییر می‌مانند) ... */}
       
-      {/* برای خلوت شدن پیام، کدهای HTML وسط را تکرار نمی‌کنم چون تغییری ندارند. 
-          فقط دقت کن که در props بالا موارد جدید اضافه شد و تابع handleBooking تغییر کرد.
-          اگر کد کامل HTML وسط را هم می‌خواهی بگو دوباره بفرستم. */}
-
+      {/* Section: Date & Time Selection */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
           <FiCalendar className="text-blue-600" /> Date & Time
         </h2>
-        {/* ... inputs ... */}
-         <div className="grid grid-cols-2 gap-4">
-          <input type="date" className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-600 outline-none" />
-          <select className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
+        <div className="grid grid-cols-2 gap-4">
+          <input 
+            type="date" 
+            aria-label="Select Booking Date" 
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-600 outline-none" 
+          />
+          <select 
+            aria-label="Select Booking Time"
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+          >
             <option>09:00 AM</option>
             <option>12:00 PM</option>
             <option>03:00 PM</option>
@@ -64,16 +76,19 @@ export default function BookingForm({ total, serviceTitle, proName, image }: Boo
         </div>
       </div>
 
+      {/* Section: Location Input */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
           <FiMapPin className="text-blue-600" /> Location
         </h2>
         <textarea 
           placeholder="Enter your full address..." 
+          aria-label="Enter Service Location"
           className="w-full p-3 border rounded-lg h-24 focus:ring-2 focus:ring-blue-600 outline-none resize-none"
         ></textarea>
       </div>
 
+       {/* Section: Payment Information */}
        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
           <FiCreditCard className="text-blue-600" /> Payment Method
@@ -84,6 +99,7 @@ export default function BookingForm({ total, serviceTitle, proName, image }: Boo
         </div>
       </div>
 
+      {/* Submit Action Button */}
       <button 
         onClick={handleBooking}
         disabled={isSubmitting}

@@ -1,5 +1,16 @@
-// src/constants/index.ts
+/**
+ * Global Constants & Mock Data
+ * -----------------------------
+ * This file serves as a centralized store for static configuration data used across the application.
+ * Keeping these values here allows for easier updates and maintainability.
+ * * NOTE: In a real-world production environment, most of this data (especially services)
+ * would be fetched from a backend API/Database.
+ */
 
+/**
+ * Main Navigation Links
+ * Used in the Header (Desktop/Mobile) and potentially in the Footer.
+ */
 export const NAV_LINKS = [
   { href: '/services', key: 'services', label: 'Services' },
   { href: '/pros', key: 'pros', label: 'Find Professionals' },
@@ -7,6 +18,11 @@ export const NAV_LINKS = [
   { href: '/blog', key: 'blog', label: 'Blog' },
 ];
 
+/**
+ * Service Categories
+ * Defines the available categories for service filtering and search logic.
+ * Contains metadata like icons and color themes for UI rendering.
+ */
 export const CATEGORIES = [
   { name: "Home Cleaning", icon: "🧹", color: "bg-purple-100 text-purple-600" },
   { name: "Plumbing", icon: "🔧", color: "bg-blue-100 text-blue-600" },
@@ -18,7 +34,12 @@ export const CATEGORIES = [
   { name: "Photography", icon: "📷", color: "bg-red-100 text-red-600" },
 ];
 
-// همه عکس‌ها و آواتارها به Picsum تغییر کردند
+/**
+ * Featured Services (Mock Data)
+ * Represents the initial list of services displayed on the landing page.
+ * * TODO: Replace this static array with a dynamic API fetch (e.g., GET /api/services/featured)
+ * to retrieve real-time data from the database.
+ */
 export const FEATURED_SERVICES = [
   {
     id: 1,
@@ -28,7 +49,7 @@ export const FEATURED_SERVICES = [
     reviews: 124,
     price: 80,
     proName: "Sarah Jenkins",
-    proAvatar: "https://picsum.photos/seed/sarah/100/100", // <--- اصلاح شد
+    proAvatar: "https://picsum.photos/seed/sarah/100/100", 
     category: "Home Cleaning"
   },
   {
@@ -39,7 +60,7 @@ export const FEATURED_SERVICES = [
     reviews: 85,
     price: 120,
     proName: "Mike Wilson",
-    proAvatar: "https://picsum.photos/seed/mike/100/100", // <--- اصلاح شد
+    proAvatar: "https://picsum.photos/seed/mike/100/100", 
     category: "Plumbing"
   },
   {
@@ -50,7 +71,7 @@ export const FEATURED_SERVICES = [
     reviews: 203,
     price: 300,
     proName: "EasyMove Team",
-    proAvatar: "https://picsum.photos/seed/move/100/100", // <--- اصلاح شد
+    proAvatar: "https://picsum.photos/seed/move/100/100",
     category: "Moving"
   },
   {
@@ -61,7 +82,7 @@ export const FEATURED_SERVICES = [
     reviews: 56,
     price: 200,
     proName: "Color Masters",
-    proAvatar: "https://picsum.photos/seed/color/100/100", // <--- اصلاح شد
+    proAvatar: "https://picsum.photos/seed/color/100/100",
     category: "Painting"
   },
 ];

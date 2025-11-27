@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com', // قبلی (اگر هنوز کارت‌های قدیمی داری بذار بمونه)
+        hostname: 'images.unsplash.com', 
       },
       {
         protocol: 'https',
@@ -12,7 +12,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'picsum.photos', // <--- جدید: اضافه شد
+        hostname: 'picsum.photos',
       },
     ],
   },

@@ -6,15 +6,25 @@ import { NAV_LINKS } from "@/constants";
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX, FiUser, FiSearch, FiLogOut } from "react-icons/fi";
 
+/**
+ * Header Component
+ * The main navigation bar of the application.
+ * Features:
+ * - Responsive design (Desktop/Mobile views).
+ * - Dynamic authentication state (Show Login vs User Profile).
+ * - Mobile navigation drawer.
+ */
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Access authentication state to determine which actions to render
   const { user, logout } = useAuth(); 
 
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50 font-sans">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         
-        {/* Logo Area */}
+        {/* Brand Logo Area */}
         <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
                 S
@@ -24,7 +34,7 @@ export default function Header() {
             </Link>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <Link 
@@ -37,9 +47,8 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Actions Area */}
+        {/* User Actions Area (Auth-dependent) */}
         <div className="hidden md:flex items-center gap-4">
-            {/* 1. اصلاح دکمه جستجو (اضافه کردن aria-label) */}
             <button 
               className="text-gray-500 hover:text-blue-600 p-2"
               aria-label="Search services"
@@ -47,7 +56,9 @@ export default function Header() {
                 <FiSearch size={20} />
             </button>
 
+            {/* Conditional Rendering based on Auth Status */}
             {user ? (
+                // Authenticated View: Show User Profile & Logout
                 <div className="flex items-center gap-4 border-l pl-4 ml-2 border-gray-200">
                     <Link href="/dashboard" className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium text-sm transition">
                         <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 border border-blue-100">
@@ -56,7 +67,6 @@ export default function Header() {
                         <span className="font-bold">{user.name}</span>
                     </Link>
                     
-                    {/* 2. اصلاح دکمه خروج (اضافه کردن aria-label) */}
                     <button 
                         onClick={logout} 
                         className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition" 
@@ -67,6 +77,7 @@ export default function Header() {
                     </button>
                 </div>
             ) : (
+                // Guest View: Show Login & Sign Up
                 <>
                     <Link href="/auth/login" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
                         <FiUser size={18} />
@@ -82,18 +93,18 @@ export default function Header() {
             )}
         </div>
 
-        {/* 3. اصلاح دکمه منوی موبایل (اضافه کردن aria-label) */}
+        {/* Mobile Menu Toggle Button */}
         <button 
             className="md:hidden text-gray-700 p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle mobile menu"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
         >
             {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
 
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Navigation Drawer */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
             <div className="flex flex-col p-4 gap-4">
@@ -108,6 +119,7 @@ export default function Header() {
                     </Link>
                 ))}
                 
+                {/* Mobile Auth Actions */}
                 {user ? (
                     <>
                         <Link href="/dashboard" className="text-blue-600 font-bold py-2 border-b border-gray-50">
